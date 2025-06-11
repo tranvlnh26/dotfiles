@@ -1,0 +1,10 @@
+theme = "catppuccin-mocha"
+font-family = "Inconsolata Nerd Font Mono Bold"
+font-size = 12
+background-opacity = 0.85
+background-blur-radius = 4
+title = ""
+cursor-color = #c48270
+cursor-opacity = 0.65
+adjust-cursor-thickness = 2
+gtk-titlebar = false

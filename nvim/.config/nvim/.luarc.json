@@ -1,0 +1,9 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "per_filetype"
+    ],
+    "diagnostics.disable": [
+        "duplicate-set-field"
+    ]
+}
