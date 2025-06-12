@@ -2,6 +2,8 @@ ZSH_THEME="robbyrussell"
 
 export ZSH="$HOME/.oh-my-zsh"
 
+alias aicm='go-commit --emoji'
+alias oh='cd ~'
 alias cls='clear'
 alias yazi='flatpak run io.github.sxyazi.yazi'
 alias zen='bash <(curl https://updates.zen-browser.app/appimage.sh)'
