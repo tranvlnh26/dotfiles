@@ -11,93 +11,61 @@ return {
         opts = {
             auto_install = true,
         },
-        config = function()
-            require("mason-lspconfig").setup({
-                -- manually install packages that do not exist in this list please
-                ensure_installed = { "lua_ls", "zls", "gopls", "ts_ls" },
-            })
-        end,
     },
     {
         "neovim/nvim-lspconfig",
         lazy = false,
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
-            local lspconfig = require("lspconfig")
-            -- lua
-            lspconfig.lua_ls.setup({
+            local default_opts = { capabilities = capabilities }
+
+            -- lua (có settings riêng)
+            local lua_cfg = vim.lsp.config.lua_ls or {}
+            vim.lsp.start(vim.tbl_deep_extend("force", lua_cfg, {
                 capabilities = capabilities,
                 settings = {
                     Lua = {
-                        diagnostics = {
-                            globals = { "vim" },
-                        },
+                        diagnostics = { globals = { "vim" } },
                         workspace = {
                             library = vim.api.nvim_get_runtime_file("", true),
                             checkThirdParty = false,
                         },
-                        telemetry = {
-                            enable = false,
-                        },
+                        telemetry = { enable = false },
                     },
                 },
-            })
+            }))
 
-            -- typescript
-            lspconfig.ts_ls.setup({
-                capabilities = capabilities,
-            })
+            -- các server khác
+            local servers = {
+                "gopls",
+                "ruff",
+                -- "svelte",
+                "dockerls",
+                -- "zls",
+                -- "rust_analyzer"
+                -- "postgrestools", -- kiểm tra xem lspconfig có không
+                -- "docker_compose_language_service", -- kiểm tra xem lspconfig có không
+            }
 
-            -- yaml
-            lspconfig.yamlls.setup({
-                capabilities = capabilities,
-            })
+            for _, server in ipairs(servers) do
+                local cfg = vim.lsp.config[server]
+                if cfg then
+                    vim.lsp.start(vim.tbl_deep_extend("force", cfg or {}, default_opts))
+                -- else
+                --     vim.notify("⚠️ LSP server '" .. server .. "' không tồn tại trong vim.lsp.config", vim.log.levels.WARN)
+                end
+            end
 
-            -- golang
-            lspconfig.gopls.setup({
-                capabilities = capabilities,
-            })
-
-            -- python
-            lspconfig.ruff.setup({
-                capabilities = capabilities,
-            })
-
-            -- rust
-            lspconfig.rust_analyzer.setup({
-                capabilities = capabilities,
-            })
-
-            lspconfig.svelte.setup({
-                capabilities = capabilities,
-            })
-
-            lspconfig.html.setup({
-                capabilities = capabilities,
-            })
-
-            lspconfig.postgrestools.setup({
-                capabilities = capabilities,
-            })
-
-            lspconfig.dockerls.setup({
-                capabilities = capabilities,
-            })
-
-            lspconfig.docker_compose_language_service.setup({
-                capabilities = capabilities,
-            })
-
+            -- keymaps
             vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-
             vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
             vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
             vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
             vim.keymap.set("n", "gr", vim.lsp.buf.references, {})
             vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
             vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+
             -- list all methods in a file
-            -- working with go confirmed, don't know about other, keep changing as necessary
             vim.keymap.set("n", "<leader>fm", function()
                 local filetype = vim.bo.filetype
                 local symbols_map = {
