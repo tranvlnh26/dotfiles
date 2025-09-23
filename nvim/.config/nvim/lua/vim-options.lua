@@ -3,7 +3,7 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 vim.opt.cursorline = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.hlsearch = true
@@ -11,13 +11,16 @@ vim.opt.incsearch = true
 vim.opt.colorcolumn = "0"
 vim.opt.termguicolors = true
 vim.opt.autoindent = true
-vim.opt.colorcolumn = "94"
+-- vim.opt.colorcolumn = "94"
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 vim.api.nvim_set_hl(0, "LineNr", { fg = "#ead84e" })
 vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "white", bold = true })
+
+vim.keymap.set("n", "<leader>-", ":split<CR>", { desc = "Split window horizontally" })
+vim.keymap.set("n", "<leader>|", ":vsplit<CR>", { desc = "Split window vertically" })
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { silent = true })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { silent = true })

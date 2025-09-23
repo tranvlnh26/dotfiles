@@ -16,6 +16,4 @@ vim.opt.rtp:prepend(lazypath)
 -- install plugins and options
 require("vim-options")
 require("vim-helpers")
-require("help-floating")
-require("floating-term")
 require("lazy").setup("plugins")

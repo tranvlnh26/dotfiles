@@ -68,6 +68,26 @@ return {
                 capabilities = capabilities,
             })
 
+            lspconfig.svelte.setup({
+                capabilities = capabilities,
+            })
+
+            lspconfig.html.setup({
+                capabilities = capabilities,
+            })
+
+            lspconfig.postgrestools.setup({
+                capabilities = capabilities,
+            })
+
+            lspconfig.dockerls.setup({
+                capabilities = capabilities,
+            })
+
+            lspconfig.docker_compose_language_service.setup({
+                capabilities = capabilities,
+            })
+
             vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 
             vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
